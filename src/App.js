@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Box from "./Components/Box";
+import Input from "./Components/Input";
 
 function App() {
+  const [todos, setToDos] = useState([]);
+
+  const removeToDo = (id) => {
+    const newToDos = todos.filter((d, index) => {
+      if (index !== id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setToDos(newToDos);
+  };
+
+  const addToDoHandler = (item) => {
+    setToDos([
+      ...todos,
+      {
+        item,
+        time: new Date().toLocaleTimeString(),
+      },
+    ]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-black h-screen p-3">
+      <div className="rounded mx-auto max-w-[750px] min-h-[550px] shadow-2xl bg-white">
+        <Input handler={addToDoHandler} />
+        <Box data={todos} removeHandler={removeToDo} />
+      </div>
     </div>
   );
 }
